@@ -3,26 +3,27 @@
 // Radius of circles on grid
 const size = 10;
 
+let startNode;
+let endNode;
 let grid = [];
 
-function setup() {
-    createCanvas(800, 600);
-    background(0, 0, 0);
-
+function generateGrid() {
     for (let x = size; x < width; x += size*2) {
+        let col = [];
+
         for (let y = size; y < height; y += size*2) {
             let chance = Math.random();
             let node;
             
             // Starting node at (0,0)
-            if (x == size && y == size) {
-                node = new Node(x, y, size, "lime", "start");
-                node.render();
+            if (x === size && y === size) {
+                startNode = new Node(x, y, size, "lime", "start");
+                startNode.render();
                 continue;
             // Ending note at (width, height)
-            } else if (x == width - size && y == height - size) {
-                node = new Node(x, y, size, "red", "end");
-                node.render();
+            } else if (x === width - size && y === height - size) {
+                endNode = new Node(x, y, size, "red", "end");
+                endNode.render();
                 continue;
             }
 
@@ -34,10 +35,18 @@ function setup() {
                 node = new Node(x, y, size, "white", "obstacle");
                 node.render();
             }
-            
-            grid.push(node);
+
+            col.push(node);
         }
+
+        grid.push(col)
     }
+}
+
+function setup() {
+    createCanvas(800, 1100);
+    background(0, 0, 0);
+    generateGrid();
 }
 
 function draw() {
