@@ -1,8 +1,8 @@
 /// <reference path="./p5.global-mode.d.ts" />
 
-const size = 5;
+const size = 10;
 
-let nodes = [];
+let grid = [];
 
 function setup() {
     createCanvas(800, 600);
@@ -10,9 +10,26 @@ function setup() {
 
     for (let x = size; x < width; x += size*2) {
         for (let y = size; y < height; y += size*2) {
-            let node = new Node(x, y, size, "gray", "open");
-            node.render();
-            nodes.push(node);
+            let chance = Math.random();
+            let node;
+            
+            if (x == size && y == size) {
+                node = new Node(x, y, size, "lime", "start");
+                node.render();
+                continue;
+            } else if (x == width - size && y == height - size) {
+                node = new Node(x, y, size, "red", "end");
+                node.render();
+                continue;
+            }
+
+            if (chance < 0.8) {
+                node = new Node(x, y, size, "black", "free");
+            } else if (chance > 0.8) {
+                node = new Node(x, y, size, "white", "obstacle");
+                node.render();
+            }
+            grid.push(node);
         }
     }
 }
