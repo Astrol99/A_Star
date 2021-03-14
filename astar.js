@@ -14,39 +14,41 @@ function generateGrid() {
         for (let y = size; y < height; y += size*2) {
             let chance = Math.random();
             let node;
-            
-            // Starting node at (0,0)
-            if (x === size && y === size) {
-                startNode = new Node(x, y, size, "lime", "start");
-                startNode.render();
-                continue;
-            // Ending note at (width, height)
-            } else if (x === width - size && y === height - size) {
-                endNode = new Node(x, y, size, "red", "end");
-                endNode.render();
-                continue;
-            }
 
             // 80% chance of free node
-            if (chance < 0.8) {
-                node = new Node(x, y, size, "black", "free");
+            if (chance < 0.9)
+                node = new Node(x, y, size, "free");
             // 20% chance of obstacle node
-            } else if (chance > 0.8) {
-                node = new Node(x, y, size, "white", "obstacle");
+            else
+                node = new Node(x, y, size, "obstacle");
+            
                 node.render();
-            }
-
             col.push(node);
         }
 
         grid.push(col)
     }
+
+    console.log("Generated Grid");
+}
+
+function A_Star() {
+    console.log("A*");
 }
 
 function setup() {
     createCanvas(800, 1100);
     background(0, 0, 0);
     generateGrid();
+
+    // Set initial nodes
+    startNode = grid[0][0];
+    startNode.state = "start";
+    startNode.render();
+
+    endNode = grid[39][54];
+    endNode.state = "end";
+    endNode.render();
 }
 
 function draw() {
