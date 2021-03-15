@@ -50,7 +50,6 @@ function startPath() {
 
 function setup() {
     createCanvas(800, 1100);
-    background("black");
     generateGrid();
 
     // Setup A* nodes
@@ -97,6 +96,7 @@ function draw() {
                 endNode = grid[x][y];
                 endNode.state = "end";
                 endNode.render();
+                findArrayPos(endNode);
             } else if (grid[x][y].state === "start") {
                 dragStart = true;
             } else if (grid[x][y].state === "end") {

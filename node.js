@@ -25,7 +25,7 @@ class Node {
                 this.color = "gray";
                 break;
             case "free":
-                this.color = "black";
+                this.color = "white";
                 break;
             case "searched":
                 this.color = "blue";
