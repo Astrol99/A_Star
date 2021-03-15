@@ -1,9 +1,16 @@
 class Node {
-    constructor(x, y, width, state) {
+    constructor(x, y, width, state, parent=null) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.state = state;
+        this.parent = parent;
+
+        this.arrayPos = [];
+
+        this.g = 0;
+        this.h = 0;
+        this.f = 0;
     }
 
     render() {
@@ -15,13 +22,16 @@ class Node {
                 this.color = "red";
                 break;
             case "obstacle":
-                this.color = "white";
+                this.color = "red";
                 break;
             case "free":
-                this.color = "blue";
+                this.color = "black";
+                break;
+            case "child":
+                this.color = "yellow";
                 break;
             default:
-                this.color = "gray";
+                this.color = "pink";
         }
 
         fill(this.color);
