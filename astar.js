@@ -11,6 +11,8 @@ let endNode;
 let openSet = [];
 let closedSet = [];
 
+let foundedPath = false;
+
 function generateGrid() {
     for (let x = size; x < width; x += size*2) {
         let col = [];
@@ -49,7 +51,7 @@ function findArrayPos(node) {
 
 function setup() {
     createCanvas(800, 1100);
-    background(0, 0, 0);
+    background("black");
     generateGrid();
 
     // Set initial nodes
@@ -85,21 +87,32 @@ function draw() {
         openSet.splice(currentIndex);
         closedSet.push(currentNode);
 
-        findArrayPos(currentNode);
+        closedSet[closedSet.length-1].state = "searched";
+        closedSet[closedSet.length-1].render();
+
+        if (closedSet.length > 1) {
+            strokeWeight(2);
+            stroke("yellow");
+            line(closedSet[closedSet.length-2].x, closedSet[closedSet.length-2].y, closedSet[closedSet.length-1].x, closedSet[closedSet.length-1].y);
+        }
 
         if (currentNode === endNode) {
             console.log("Found Path!");
-
+            foundedPath = true;
+            
             for (let i = 1; i < closedSet.length; i++) {
                 let backNode = closedSet[i-1];
                 let frontNode = closedSet[i];
                 stroke("cyan")
-                strokeWeight(4);
+                strokeWeight(size/2);
                 line(backNode.x, backNode.y, frontNode.x, frontNode.y);
             }
+            
             openSet = [];
             return;
         }
+
+        findArrayPos(currentNode);
 
         // Generate children
         let children = [];
@@ -148,5 +161,7 @@ function draw() {
 
             openSet.push(child);
         });
+    } else if (!foundedPath && openSet.length === 0) {
+        console.log(false);
     }
 }

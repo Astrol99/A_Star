@@ -27,8 +27,11 @@ class Node {
             case "free":
                 this.color = "black";
                 break;
+            case "searched":
+                this.color = "blue";
+                break;
             case "child":
-                this.color = "yellow";
+                this.color = "lime";
                 break;
             default:
                 this.color = "pink";
