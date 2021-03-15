@@ -22,7 +22,7 @@ class Node {
                 this.color = "red";
                 break;
             case "obstacle":
-                this.color = "red";
+                this.color = "gray";
                 break;
             case "free":
                 this.color = "black";

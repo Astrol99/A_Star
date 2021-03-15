@@ -11,24 +11,17 @@ let endNode;
 let openSet = [];
 let closedSet = [];
 
+let pathStarted = false;
 let foundedPath = false;
+
+let startBtn;
 
 function generateGrid() {
     for (let x = size; x < width; x += size*2) {
         let col = [];
 
         for (let y = size; y < height; y += size*2) {
-            let chance = Math.random();
-            let node;
-
-            
-            // 80% chance of free node
-            if (chance < 0.7)
-                node = new Node(x, y, size, "free");
-            // 20% chance of obstacle node
-            else
-                node = new Node(x, y, size, "obstacle");
-            
+            let node = new Node(x, y, size, "free");
             node.render();
             col.push(node);
         }
@@ -49,12 +42,18 @@ function findArrayPos(node) {
     }
 }
 
+function startPath() {
+    console.log("A*");
+    pathStarted = true;
+    startBtn.attribute('disabled', '');
+}
+
 function setup() {
     createCanvas(800, 1100);
     background("black");
     generateGrid();
 
-    // Set initial nodes
+    // Setup A* nodes
     startNode = grid[0][0];
     startNode.state = "start";
     startNode.render();
@@ -67,12 +66,24 @@ function setup() {
 
     openSet.push(startNode);
 
-    console.log("A*");
+    startBtn = createButton("Start");
+    startBtn.position(size);
+    startBtn.mousePressed(startPath);
 }
 
 function draw() {
+    if (mouseIsPressed) {
+        const x = Math.floor((mouseX/(size*2)));
+        const y = Math.floor((mouseY/(size*2)));
+
+        if (grid[x] && grid[x][y] && grid[x][y].state !== "start" && grid[x][y].state !== "end") {
+            grid[x][y].state = "obstacle";
+            grid[x][y].render();
+        }
+    }
+
     // Main A* loop
-    if (openSet.length > 0) {
+    if (openSet.length > 0 && pathStarted) {
         // Get node with lowest f value
         let currentNode = openSet[0];
         let currentIndex = 0;
@@ -141,7 +152,7 @@ function draw() {
         children.forEach(child => {
             if (closedSet.includes(child) || child.state === "obstacle")
                 return;
-            
+
             child.state = "child";
             child.render();
             
