@@ -71,15 +71,44 @@ function setup() {
     startBtn.mousePressed(startPath);
 }
 
+let dragStart = false;
+let dragEnd = false;
+
 function draw() {
-    if (mouseIsPressed) {
+    if (mouseIsPressed && !pathStarted) {
         const x = Math.floor((mouseX/(size*2)));
         const y = Math.floor((mouseY/(size*2)));
 
-        if (grid[x] && grid[x][y] && grid[x][y].state !== "start" && grid[x][y].state !== "end") {
-            grid[x][y].state = "obstacle";
-            grid[x][y].render();
+        if (grid[x] && grid[x][y]) {
+            if (dragStart && grid[x][y].state === "free") {
+                startNode.state = "free";
+                startNode.render();
+
+                startNode = grid[x][y];
+                startNode.state = "start";
+                startNode.render();
+
+                openSet.pop();
+                openSet.push(startNode);
+            } else if (dragEnd && grid[x][y].state === "free") {
+                endNode.state = "free";
+                endNode.render();
+
+                endNode = grid[x][y];
+                endNode.state = "end";
+                endNode.render();
+            } else if (grid[x][y].state === "start") {
+                dragStart = true;
+            } else if (grid[x][y].state === "end") {
+                dragEnd = true;
+            } else {
+                grid[x][y].state = "obstacle";
+                grid[x][y].render();
+            }
         }
+    } else {
+        dragStart = false;
+        dragEnd = false;
     }
 
     // Main A* loop
@@ -174,5 +203,6 @@ function draw() {
         });
     } else if (!foundedPath && openSet.length === 0) {
         console.log(false);
+        foundedPath = true;
     }
 }
