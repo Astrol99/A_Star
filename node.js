@@ -6,7 +6,7 @@ class Node {
         this.state = state;
         this.parent = parent;
 
-        this.arrayPos = [];
+        this.arrayPos = [Math.ceil((this.x/(width*2))-1), Math.ceil((this.y/(width*2))-1)];
 
         this.g = 0;
         this.h = 0;
@@ -25,7 +25,7 @@ class Node {
                 this.color = "gray";
                 break;
             case "free":
-                this.color = "white";
+                this.color = "black";
                 break;
             case "searched":
                 this.color = "blue";

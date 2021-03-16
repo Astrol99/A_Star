@@ -32,16 +32,6 @@ function generateGrid() {
     console.log("Generated Grid");
 }
 
-function findArrayPos(node) {
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[0].length; j++) {
-            if (grid[i][j] === node) {
-                node.arrayPos = [i,j];
-            }
-        }
-    }
-}
-
 function startPath() {
     console.log("A*");
     pathStarted = true;
@@ -50,6 +40,7 @@ function startPath() {
 
 function setup() {
     createCanvas(800, 1100);
+    background("black");
     generateGrid();
 
     // Setup A* nodes
@@ -60,8 +51,6 @@ function setup() {
     endNode = grid[grid.length-1][grid[0].length-1];
     endNode.state = "end";
     endNode.render();
-
-    findArrayPos(endNode);
 
     openSet.push(startNode);
 
@@ -96,7 +85,6 @@ function draw() {
                 endNode = grid[x][y];
                 endNode.state = "end";
                 endNode.render();
-                findArrayPos(endNode);
             } else if (grid[x][y].state === "start") {
                 dragStart = true;
             } else if (grid[x][y].state === "end") {
@@ -152,7 +140,6 @@ function draw() {
             return;
         }
 
-        findArrayPos(currentNode);
 
         // Generate children
         let children = [];
@@ -185,8 +172,6 @@ function draw() {
             child.state = "child";
             child.render();
             
-            findArrayPos(child);
-
             // Distance between current and child
             child.g = currentNode.g + 1;
             // Distance between child and end
