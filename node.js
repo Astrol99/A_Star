@@ -38,8 +38,7 @@ class Node {
         }
 
         fill(this.color);
-        strokeWeight(0.1);
-        stroke("white");
+        noStroke();
         ellipse(this.x, this.y, this.width);
     }
 }
