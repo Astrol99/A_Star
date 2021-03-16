@@ -43,6 +43,8 @@ function startPath() {
 
 function resetSearch() {
 
+
+    console.log("Resetted Search");
 }
 
 function clearObstacles() {
@@ -54,6 +56,23 @@ function clearObstacles() {
             }
         }); 
     });
+
+    console.log("Cleared Obstacles");
+}
+
+function randomObstacles() {
+    const chance = 0.4
+    
+    grid.forEach(row => {
+        row.forEach(node => {
+            if (node.state === "free" && Math.random() < chance) {
+                node.state = "obstacle";
+                node.render();
+            }
+        }); 
+    });
+
+    console.log(`Generated random obstacles with a ${chance*100}% chance`)
 }
 
 function setup() {
@@ -87,6 +106,7 @@ function setup() {
 
     randObstaclesBtn = createButton("Random Obstacles");
     randObstaclesBtn.position(clearObstaclesBtn.position().x + clearObstaclesBtn.width);
+    randObstaclesBtn.mousePressed(randomObstacles);
 }
 
 let dragStart = false;
