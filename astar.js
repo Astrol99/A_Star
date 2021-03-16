@@ -42,7 +42,30 @@ function startPath() {
 }
 
 function resetSearch() {
+    background("black");
+    grid = [];
+    openSet = [];
+    closedSet = [];
+    pathStarted = false;
+    foundedPath = false;
 
+    generateGrid();
+
+    // Setup A* nodes
+    startNode = grid[0][0];
+    startNode.state = "start";
+    startNode.render();
+
+    endNode = grid[grid.length-1][grid[0].length-1];
+    endNode.state = "end";
+    endNode.render();
+
+    openSet.push(startNode);
+
+    startBtn.removeAttribute('disabled');
+    resetSearchBtn.attribute('disabled', '');
+    clearObstaclesBtn.removeAttribute('disabled');
+    randObstaclesBtn.removeAttribute('disabled');
 
     console.log("Resetted Search");
 }
