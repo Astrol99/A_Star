@@ -63,6 +63,7 @@ let dragStart = false;
 let dragEnd = false;
 
 function draw() {
+    // Manage mouseclicks for customizable grid
     if (mouseIsPressed && !pathStarted) {
         const x = Math.floor((mouseX/(size*2)));
         const y = Math.floor((mouseY/(size*2)));
@@ -111,29 +112,32 @@ function draw() {
             }
         }
         
-        // Move current node from openSet to closedSet
+        // Move current node from openSet to closedSet to mark as already discovered
         openSet.splice(currentIndex);
         closedSet.push(currentNode);
 
         closedSet[closedSet.length-1].state = "searched";
         closedSet[closedSet.length-1].render();
 
-        if (closedSet.length > 1) {
-            strokeWeight(2);
-            stroke("yellow");
-            line(closedSet[closedSet.length-2].x, closedSet[closedSet.length-2].y, closedSet[closedSet.length-1].x, closedSet[closedSet.length-1].y);
-        }
-
         if (currentNode === endNode) {
             console.log("Found Path!");
             foundedPath = true;
+            console.log("Backtracking path...");
+
+            let path = [];
+            let current = currentNode;
             
-            for (let i = 1; i < closedSet.length; i++) {
-                let backNode = closedSet[i-1];
-                let frontNode = closedSet[i];
-                stroke("cyan")
-                strokeWeight(size/2);
-                line(backNode.x, backNode.y, frontNode.x, frontNode.y);
+            // Backtrack through parents of each child from end node
+            while (current) {
+                path.unshift(current);
+                current = current.parent;
+            }
+
+            // Draw resulting final path
+            for (let i = 1; i < path.length; i++) {
+                strokeWeight(2);
+                stroke("cyan");
+                line(path[i-1].x, path[i-1].y, path[i].x, path[i].y);
             }
             
             openSet = [];
@@ -171,6 +175,8 @@ function draw() {
 
             child.state = "child";
             child.render();
+
+            child.parent = currentNode;
             
             // Distance between current and child
             child.g = currentNode.g + 1;
@@ -178,11 +184,6 @@ function draw() {
             child.h = dist(child.arrayPos[0], child.arrayPos[1], endNode.arrayPos[0], endNode.arrayPos[1]);
             // Total cost
             child.f = child.g + child.h;
-
-            openSet.forEach((openNode) => {
-                if (child === openNode && child.g > openNode.g)
-                    return;
-            });
 
             openSet.push(child);
         });
