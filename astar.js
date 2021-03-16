@@ -181,7 +181,8 @@ function draw() {
             // Distance between current and child
             child.g = currentNode.g + 1;
             // Distance between child and end
-            child.h = dist(child.arrayPos[0], child.arrayPos[1], endNode.arrayPos[0], endNode.arrayPos[1]);
+            // Euclidian Distance by pixel position of each node
+            child.h = dist(child.x, child.y, endNode.x, endNode.y)
             // Total cost
             child.f = child.g + child.h;
 
