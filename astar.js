@@ -14,7 +14,7 @@ let closedSet = [];
 let pathStarted = false;
 let foundedPath = false;
 
-let startBtn;
+let startBtn, resetSearchBtn, clearObstaclesBtn, randObstaclesBtn;
 
 function generateGrid() {
     for (let x = size; x < width; x += size*2) {
@@ -36,6 +36,16 @@ function startPath() {
     console.log("A*");
     pathStarted = true;
     startBtn.attribute('disabled', '');
+    resetSearchBtn.removeAttribute('disabled');
+    clearObstaclesBtn.attribute('disabled', '')
+}
+
+function resetSearch() {
+
+}
+
+function clearObstacles() {
+
 }
 
 function setup() {
@@ -57,6 +67,18 @@ function setup() {
     startBtn = createButton("Start");
     startBtn.position(size);
     startBtn.mousePressed(startPath);
+
+    resetSearchBtn = createButton("Reset Search");
+    resetSearchBtn.position(startBtn.position().x + startBtn.width);
+    resetSearchBtn.mousePressed(resetSearch);
+    resetSearchBtn.attribute('disabled', '')
+
+    clearObstaclesBtn = createButton("Clear Obstacles");
+    clearObstaclesBtn.position(resetSearchBtn.position().x + resetSearchBtn.width);
+    clearObstaclesBtn.mousePressed(clearObstacles);
+
+    randObstaclesBtn = createButton("Random Obstacles");
+    randObstaclesBtn.position(clearObstaclesBtn.position().x + clearObstaclesBtn.width);
 }
 
 let dragStart = false;
