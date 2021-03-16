@@ -39,8 +39,7 @@ function startPath() {
 }
 
 function setup() {
-    createCanvas(800, 1100);
-    frameRate(100);
+    createCanvas(800, 800);
     background("black");
     generateGrid();
 
