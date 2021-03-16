@@ -38,6 +38,7 @@ function startPath() {
     startBtn.attribute('disabled', '');
     resetSearchBtn.removeAttribute('disabled');
     clearObstaclesBtn.attribute('disabled', '')
+    randObstaclesBtn.attribute('disabled', '')
 }
 
 function resetSearch() {
@@ -45,7 +46,14 @@ function resetSearch() {
 }
 
 function clearObstacles() {
-
+    grid.forEach(row => {
+        row.forEach(node => {
+            if (node.state === "obstacle") {
+                node.state = "free";
+                node.render();
+            }
+        }); 
+    });
 }
 
 function setup() {
