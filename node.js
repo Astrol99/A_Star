@@ -31,14 +31,15 @@ class Node {
                 this.color = "blue";
                 break;
             case "child":
-                this.color = "lime";
+                this.color = "green";
                 break;
             default:
                 this.color = "pink";
         }
 
         fill(this.color);
-        noStroke();
+        strokeWeight(0.1);
+        stroke("white");
         ellipse(this.x, this.y, this.width);
     }
 }

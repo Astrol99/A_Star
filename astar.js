@@ -40,6 +40,7 @@ function startPath() {
 
 function setup() {
     createCanvas(800, 1100);
+    frameRate(100);
     background("black");
     generateGrid();
 
@@ -120,8 +121,6 @@ function draw() {
         closedSet[closedSet.length-1].render();
 
         if (currentNode === endNode) {
-            console.log("Found Path!");
-            foundedPath = true;
             console.log("Backtracking path...");
 
             let path = [];
@@ -139,8 +138,10 @@ function draw() {
                 stroke("cyan");
                 line(path[i-1].x, path[i-1].y, path[i].x, path[i].y);
             }
-            
+
+            console.log("Found Path!");
             openSet = [];
+            foundedPath = true;
             return;
         }
 
@@ -188,7 +189,6 @@ function draw() {
             openSet.push(child);
         });
     } else if (!foundedPath && openSet.length === 0) {
-        console.log(false);
-        foundedPath = true;
+        console.log("Path not found!");
     }
 }
